@@ -1,5 +1,5 @@
 from IPython.display import HTML
-import PIL.Image
+from PIL import Image,ImageDraw
 from base64 import b64encode
 import seaborn as sns
 import ffmpeg
@@ -55,8 +55,8 @@ class VisTrack:
         ic = self._id_dict[i]
         return self._get_color(ic)
 
-    def draw_bounding_boxes(self, im: PIL.Image, bboxes: np.ndarray, ids: np.ndarray,
-                        scores: np.ndarray) -> PIL.Image:
+    def draw_bounding_boxes(self, im: Image, bboxes: np.ndarray, ids: np.ndarray,
+                        scores: np.ndarray) -> Image:
         """
         im (PIL.Image): The image 
         bboxes (np.ndarray): The bounding boxes. [[x1,y1,x2,y2],...]
@@ -64,7 +64,7 @@ class VisTrack:
         scores (np.ndarray): The scores's for the bounding boxes
         """
         im = im.copy()
-        draw = PIL.ImageDraw.Draw(im)
+        draw = ImageDraw.Draw(im)
 
         for bbox, id_, score in zip(bboxes, ids, scores):
             color = self._color(id_)
